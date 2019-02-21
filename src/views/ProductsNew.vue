@@ -1,7 +1,11 @@
 <template>
   <div class="products-new">
     <h1>New Product</h1>
-    <div>
+    <ul>
+      <li v-for="error in errors">{{ error }}</li>
+    </ul>
+
+    <form v-on:submit.prevent="submit()">
       <div>
         Name: <input v-model="newProductName">
       </div>
@@ -18,8 +22,8 @@
         Image Url: <input v-model="newProductImageUrl">
       </div>
 
-      <button v-on:click="createProduct()">Create</button>
-    </div>
+      <input type="submit" value="Create" class="btn btn-warning">
+    </form>
   </div>
 </template>
 
@@ -35,12 +39,13 @@ export default {
       newProductName: "",
       newProductPrice: "",
       newProductDescription: "",
-      newProductImageUrl: ""
+      newProductImageUrl: "", 
+      errors: []
     };
   },
   created: function() {},
   methods: {
-    createProduct: function() {
+    submit: function() {
       console.log("Create the product");
       var params = {
                    name: this.newProductName,
@@ -53,6 +58,8 @@ export default {
         .then(response => {
           console.log("Success", response.data);
           this.$router.push('/')
+        }).catch(error => {
+          this.errors = error.response.data.errors;
         });
     }
   }
