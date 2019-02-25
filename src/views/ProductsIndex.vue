@@ -1,7 +1,11 @@
 <template>
   <div class="home">
     <div>
-      Filter Title: <input v-model="titleFilter">
+      Filter Title: <input v-model="titleFilter" list="names">
+
+      <datalist id="names">
+        <option v-for="product in products">{{ product.name }}</option>
+      </datalist>
     </div>
 
     <h1>All Products</h1>
